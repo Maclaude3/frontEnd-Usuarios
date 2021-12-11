@@ -1,12 +1,19 @@
 //console.log("teste");
 lsUsuario = [];
 function gravarUsuario(){
-    console.log("dentro da função gravar");
+    //console.log("dentro da função gravar");
     id = document.getElementById("id").value;
     nome = document.getElementById("nome").value;
     email= document.getElementById("email").value;
     url =`nome=${nome}&email=${email}`;
-    
+    if (nome.trim()== '') {
+        alert('Erro no preenchimento do nome.');
+        return;
+    }
+    if (email.trim()== '') {
+        alert('Erro no preenchimento do e-mail.');
+        return;
+    }
     const xhttp = new XMLHttpRequest();
     if(id == ''){
         xhttp.open("POST", "http://localhost:8080/demo/add?"+url);
@@ -15,9 +22,13 @@ function gravarUsuario(){
     }
     xhttp.send();
     xhttp.onload = function() {
-        alert(this.responseText);
+        msg = this.responseText;
+        alert(msg);
         atualizarTabela();
-        limparCampos();
+        if(msg.substring(0,2) == 'ok'){
+            limparCampos();
+        };
+        
     }       
 }
 
@@ -33,14 +44,28 @@ xhttp.open("GET", "http://localhost:8080/demo/all");
 xhttp.send();
 xhttp.onload = function() {
     lsUsuario = JSON.parse(this.responseText);
+    carregarPagina(0);
+    }
+}
+function carregarPagina(pg){
+    qtPagina = (lsUsuario.length) / 5;
+    if (qtPagina > 1){
+        txtPaginas = `<li class="page-item" onclick='carregarPagina(0)'><a class="page-link" href="#">Início</a></li>`;
+            for(i = 1; i<= qtPagina; i++){
+                txtPaginas += `<li class="page-item" onclick='carregarPagina(${i - 1})'><a class="page-link" href="#">${i}</a></li>`;
+            }
+
+        txtPaginas += `<li class="page-item"onclick='carregarPagina(${qtPagina - 1})'><a class="page-link" href="#">Fim</a></li>`;
+        document.getElementById("lsPagina").innerHTML = txtPaginas;
+    }
+
     texto = "";
-    for(i in lsUsuario){
+    pg = 7 * pg;
+     for(i = pg; i <= pg; i++){
         u = lsUsuario[i];
-        //console.log(u);
         texto += `<tr onclick='carregarUsuario(${i})'><td>${u.id}</td><td>${u.nome}</td><td>${u.email}</td></tr>`;
     }
     document.getElementById("tbCorpo").innerHTML = texto;
-}
 }
 
 function carregarUsuario(i){
