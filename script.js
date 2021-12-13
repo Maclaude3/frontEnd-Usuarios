@@ -4,8 +4,13 @@ function gravarUsuario(){
     //console.log("dentro da função gravar");
     id = document.getElementById("id").value;
     nome = document.getElementById("nome").value;
-    email= document.getElementById("email").value;
-    url =`nome=${nome}&email=${email}`;
+    statuss= document.getElementById("statuss").value;
+    local= document.getElementById("local").value;
+    previsto= document.getElementById("previsto").value;
+    inicio= document.getElementById("inicio").value;
+    fim= document.getElementById("fim").value;
+    saida= document.getElementById("saida").value;
+    url =`nome=${nome}&status=${status}&local=${local}&previsto=${previsto}&inicio=${inicio}&fim=${fim}&saida=${saida}`;
     if (nome.trim()== '') {
         alert('Erro no preenchimento do nome.');
         return;
@@ -35,8 +40,13 @@ function gravarUsuario(){
 function limparCampos(){
     document.getElementById("id").value = "";
     document.getElementById("nome").value = "";
-    document.getElementById("email").value = "";
-}
+    document.getElementById("statuss").value = "";
+    document.getElementById("local").value = "";
+    document.getElementById("previsto").value = "";
+    document.getElementById("inicio").value = "";
+    document.getElementById("fim").value = "";
+    document.getElementById("saida").value; 
+    }
 
 function atualizarTabela() {
 const xhttp = new XMLHttpRequest();
@@ -63,7 +73,7 @@ function carregarPagina(pg){
     pg = 7 * pg;
      for(i = pg; i <= pg; i++){
         u = lsUsuario[i];
-        texto += `<tr onclick='carregarUsuario(${i})'><td>${u.id}</td><td>${u.nome}</td><td>${u.email}</td></tr>`;
+        texto += `<tr onclick='carregarUsuario(${i})'><td>${u.id}</td><td>${u.nome}</td><td>${u.status}</td><td>${local}</td><td>${previsto}</td><td>${inicio}</td><td>${fim}</td><td>${saida}</td></tr>`;
     }
     document.getElementById("tbCorpo").innerHTML = texto;
 }
@@ -71,9 +81,15 @@ function carregarPagina(pg){
 function carregarUsuario(i){
 //console.log(lsUsuario[i]);
 u = lsUsuario[i];
-document.getElementById("id").value = u.id;
-document.getElementById("nome").value = u.nome;
-document.getElementById("email").value = u.email;
+    document.getElementById("id").value = u.id;
+    document.getElementById("nome").value = u.nome;
+    document.getElementById("statuss").value = u.status;
+    document.getElementById("local").value = u.local;
+    document.getElementById("previsto").value = u.previsto;
+    document.getElementById("inicio").value = u.inicio;
+    document.getElementById("fim").value = u.fim;
+    document.getElementById("saida").value = u.saida; 
+
 }
 function apagarUsuario(){
     id = document.getElementById("id").value;
@@ -94,3 +110,4 @@ function apagarUsuario(){
         limparCampos();
     }       
 } 
+
